@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Sand Tetris (Sandtris) - A Gravity-Defying Block Puzzle Game</title>
+    <meta name="description" content="Play Sand Tetris (Sandtris), a unique block puzzle game where pieces crumble like sand. Optimize your strategy to clear masses and achieve high scores. Developed by Chris Pirillo.">
+    <meta name="keywords" content="Sand Tetris, Sandtris, block puzzle, gravity game, online game, browser game, Chris Pirillo, arcade game, puzzle game, high score, Core Web Vitals optimized">
+    <link rel="canonical" href="https://pirillo.com/arcade/sandtris.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="game">
+    <meta property="og:url" content="https://pirillo.com/arcade/sandtris.html">
+    <meta property="og:title" content="Sand Tetris (Sandtris) - A Gravity-Defying Block Puzzle Game">
+    <meta property="og:description" content="Play Sand Tetris (Sandtris), a unique block puzzle game where pieces crumble like sand. Optimize your strategy to clear masses and achieve high scores.">
+    <meta property="og:image" content="https://pirillo.com/arcade/images/sandtris.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pirillo.com/arcade/sandtris.html">
+    <meta property="twitter:title" content="Sand Tetris (Sandtris) - A Gravity-Defying Block Puzzle Game">
+    <meta property="twitter:description" content="Play Sand Tetris (Sandtris), a unique block puzzle game where pieces crumble like sand. Optimize your strategy to clear masses and achieve high scores.">
+    <meta property="twitter:image" content="https://pirillo.com/arcade/images/sandtris.png">
+    <meta property="twitter:creator" content="@ChrisPirillo">
+    <meta property="twitter:site" content="@ChrisPirillo">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Sand Tetris (Sandtris)",
+      "description": "Play Sand Tetris (Sandtris), a unique block puzzle game where pieces crumble like sand. Optimize your strategy to clear masses and achieve high scores.",
+      "url": "https://pirillo.com/arcade/sandtris.html",
+      "image": "https://pirillo.com/arcade/images/sandtris.png",
+      "author": {
+        "@type": "Person",
+        "name": "Chris Pirillo",
+        "url": "https://pirillo.com",
+        "sameAs": ["https://twitter.com/ChrisPirillo"]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Pirillo.com",
+        "url": "https://pirillo.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://pirillo.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+
+    <!-- Preconnect to Google Fonts and Google Tag Manager -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+
+    <!-- Preload critical fonts for LCP and CLS -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofINoOwaM_M.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v25/XRXW3I6Li01BKofINoOyaM_M.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/orbitron/v25/SZcQAnzyUqg_HTxQ7CzzFBc.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/orbitron/v25/SZcQAnzyUqg_HTxQ7CzzFBc.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Google Fonts with font-display: swap for FOUT prevention -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics (async to prevent render blocking) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1CQ4D3VQ3L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1CQ4D3VQ3L');
+    </script>
+
+    <style>
+        /* Universal box-sizing for consistent layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background-color: #10101a;
+            --primary-glow: #00a8ff;
+            --secondary-glow: #e03bff;
+            --accent-color: #fdf200;
+            --text-color: #f5f5f5;
+            --container-bg: rgba(23, 23, 39, 0.6);
+        }
+
+        @keyframes pulse-glow {
+            0% { text-shadow: 0 0 3px #fff, 0 0 8px var(--secondary-glow), 0 0 15px var(--secondary-glow); } /* Reduced blur values */
+            50% { text-shadow: 0 0 6px #fff, 0 0 12px var(--secondary-glow), 0 0 20px var(--secondary-glow); } /* Reduced blur values */
+            100% { text-shadow: 0 0 3px #fff, 0 0 8px var(--secondary-glow), 0 0 15px var(--secondary-glow); } /* Reduced blur values */
+        }
+
+        body {
+            background-color: var(--background-color);
+            background-image: radial-gradient(circle, #2a2a4e 0%, #10101a 80%);
+            color: var(--text-color);
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            flex-direction: column; /* Arrange content vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent body scrolling */
+            position: relative;
+        }
+        
+        main { /* Changed #game-wrapper to main for semantic HTML */
+            display: flex;
+            justify-content: center; /* Center the entire game area horizontally */
+            align-items: flex-start; /* Align items to the top for consistent sidebar alignment */
+            gap: 50px; /* Increased space between canvas and panels */
+            padding: 20px; /* Overall padding for the layout */
+            width: 100%; /* Allow it to take full width */
+            /* Removed height: 100% to allow vertical centering via body flex properties */
+        }
+
+        #game-container {
+            position: relative;
+            display: block;
+            border-radius: 8px;
+            border: 2px solid var(--primary-glow);
+            box-shadow: 0 0 20px var(--primary-glow), 0 0 30px var(--primary-glow) inset;
+            flex-grow: 0; /* Prevent game container from growing beyond its calculated size */
+            flex-shrink: 0; /* Prevent game container from shrinking */
+        }
+
+        /* Added explicit width and height for CLS to prevent layout shifts before JS resize */
+        #game-canvas {
+            background-color: #000;
+            display: block;
+            border-radius: 8px;
+            touch-action: none; /* Prevent default touch actions like scrolling/zooming */
+            /* Initial placeholder width/height - will be overridden by JS */
+            width: 100%; 
+            height: 100%;
+        }
+
+        .ui-panel { /* Changed from div to aside for semantic HTML */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: clamp(120px, 15vw, 180px); /* Made sidebars thinner */
+            flex-grow: 0; /* Prevent panels from growing */
+            flex-shrink: 0; /* Prevent panels from shrinking too much */
+            pointer-events: all;
+            margin-top: 1px; /* Nudge down to align with game container's 2px border */
+        }
+
+        /* Styling for the game title within the left panel */
+        .panel-title {
+            position: relative;
+            top: 1px; /* Nudge down to align perfectly with stat-box border */
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em; /* Adjusted font size for fit */
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -1.5px; /* Tightened letters */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .stat-box {
+            background: var(--container-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--primary-glow);
+            border-radius: 8px;
+            padding: 8px 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-label {
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(0.7em, 1.5vw, 0.8em);
+            color: var(--secondary-glow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            text-shadow: 0 0 4px var(--secondary-glow);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.1em, 2.5vw, 1.4em);
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px var(--primary-glow);
+        }
+
+        #high-scores-list, #modal-high-scores-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(0.9em, 2vw, 1em);
+            color: #ddd;
+        }
+        #high-scores-list li, #modal-high-scores-list li {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 4px 0;
+        }
+        .score-entry {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .score-entry span:first-child {
+            color: var(--primary-glow);
+            margin-right: 10px;
+        }
+        .score-date {
+            font-size: 0.7em;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        /* Removed fixed width/height for side canvases; JS will handle sizing */
+        #next-piece-canvas, #hold-piece-canvas {
+            background-color: transparent;
+            display: block;
+            margin: 4px auto 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--container-bg);
+            margin: auto;
+            padding: 30px;
+            border: 2px solid var(--primary-glow);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 25px var(--primary-glow);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .modal-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary-glow);
+            font-size: clamp(2em, 5vw, 3em);
+            margin-top: 0;
+            margin-bottom: 25px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--secondary-glow);
+        }
+        
+        .modal-button {
+            font-family: 'Orbitron', sans-serif;
+            background-color: transparent;
+            color: var(--primary-glow);
+            border: 2px solid var(--primary-glow);
+            padding: 12px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: clamp(1em, 2.5vw, 1.2em);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px transparent;
+            margin: 5px;
+        }
+        
+        .modal-button.difficulty-button.selected {
+            background-color: var(--primary-glow);
+            color: var(--background-color);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .modal-button:hover {
+            /* Changed hover state to primary-glow color */
+            background-color: var(--primary-glow);
+            border-color: var(--primary-glow);
+            color: var(--background-color); /* Text color on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        #startGameButton {
+             background-color: var(--accent-color);
+             border-color: var(--accent-color);
+             color: var(--background-color);
+        }
+        #startGameButton:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .start-screen-bottom {
+            display: flex;
+            flex-direction: column; /* Stack buttons and controls vertically on mobile */
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 20px; /* Reduced gap for mobile */
+        }
+        
+        .controls-display {
+            font-size: clamp(0.9em, 2vw, 1em);
+            color: rgba(255,255,255,0.8);
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            grid-row-gap: 8px;
+            grid-column-gap: 15px;
+            text-align: left;
+        }
+        .control-key {
+            color: var(--primary-glow);
+            font-family: 'Orbitron', sans-serif;
+            text-align: right;
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: row; /* Keep game and right panel side-by-side on mobile */
+                align-items: center; /* Align items to the center for vertical alignment */
+                gap: 10px; /* Smaller gap between game and right panel */
+                padding: 10px; /* Smaller padding on mobile */
+                height: 100vh; /* Ensure main takes full viewport height on mobile */
+                overflow: hidden; /* Hide overflow to prevent scrolling */
+                justify-content: center; /* Center content horizontally */
+            }
+
+            #game-container {
+                /* Allow game container to grow and shrink, but maintain aspect ratio */
+                flex-grow: 1;
+                flex-shrink: 1;
+            }
+
+            .ui-panel {
+                width: auto; /* Let content dictate width initially */
+                flex-direction: column; /* Keep content stacked within the panel */
+                flex-wrap: nowrap; /* Prevent wrapping within the panel */
+                justify-content: flex-start; /* Align content to the top */
+                gap: 10px; /* Smaller gap between stat boxes */
+            }
+
+            .ui-panel:first-child { /* Left panel (Sandtris title and High Scores) */
+                display: none; /* Hide the entire left panel on mobile gameplay */
+            }
+
+            .ui-panel:last-child { /* Right panel (Score, Masses, Level, Hold, Next) */
+                order: 0; /* Keep its original order relative to game container */
+                /* Adjusted width to be more flexible and take less space */
+                width: clamp(80px, 25vw, 120px); /* Smaller fixed width for right panel on mobile */
+                flex-basis: auto; /* Remove flex-basis override */
+                max-width: none; /* Remove max-width constraint */
+                align-self: stretch; /* Stretch vertically to fill available height */
+                justify-content: space-around; /* Distribute space among stat boxes */
+            }
+
+            .stat-box {
+                flex-basis: auto; /* Let content dictate size */
+                max-width: none; /* Remove max-width constraint */
+                padding: 6px 8px; /* Reduced padding */
+                flex-grow: 1; /* Allow stat boxes to grow vertically */
+            }
+
+            #high-scores-panel {
+                display: none; /* Hidden by default on mobile gameplay screen */
+            }
+
+            #next-piece-canvas, #hold-piece-canvas {
+                width: 80px; /* Even smaller size for side pieces on mobile */
+                height: 80px;
+            }
+
+            .modal-content {
+                width: 95%; /* Make modals take more width on small screens */
+                padding: 20px;
+            }
+            .modal-button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+
+        /* Specific adjustments for very small screens */
+        @media (max-width: 480px) {
+            .stat-box {
+                flex-basis: auto; /* Let content dictate size */
+                max-width: none; /* Remove max-width constraint */
+            }
+            #next-piece-canvas, #hold-piece-canvas {
+                width: 60px; /* Even smaller size for side pieces on very small mobile */
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <main id="game-wrapper">
+        <aside class="ui-panel" id="left-panel">
+            <h1 class="panel-title">Sandtris</h1>
+            <section class="stat-box" id="high-scores-panel">
+                <h2 class="stat-label">Top Scores</h2>
+                <ol id="high-scores-list"></ol>
+            </section>
+        </aside>
+        
+        <section id="game-container">
+            <canvas id="game-canvas" width="300" height="600" aria-label="Sandtris Game Board"></canvas>
+        </section>
+        
+        <aside class="ui-panel" id="right-panel">
+             <section class="stat-box">
+                <h2 class="stat-label">Score</h2>
+                <div id="score" class="stat-value">0</div>
+            </section>
+            <section class="stat-box">
+                <h2 class="stat-label">Masses</h2>
+                <div id="lines" class="stat-value">0</div>
+            </section>
+            <section class="stat-box">
+                <h2 class="stat-label">Level</h2>
+                <div id="level" class="stat-value">1</div>
+            </section>
+             <section class="stat-box">
+                <h2 class="stat-label">Hold</h2>
+                <canvas id="hold-piece-canvas" aria-label="Held Piece Display"></canvas>
+            </section>
+            <section class="stat-box">
+                <h2 class="stat-label">Next</h2>
+                <canvas id="next-piece-canvas" aria-label="Next Piece Display"></canvas>
+            </section>
+        </aside>
+    </main>
+
+    <div id="gameOverModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle">
+        <div class="modal-content">
+            <h2 id="gameOverTitle">GAME OVER</h2>
+            <p id="gameOverMessage">Your sand castles have crumbled. Try again?</p>
+            <button id="restartGameButton" class="modal-button">Restart</button>
+        </div>
+    </div>
+
+    <div id="startMenuModal" class="modal" style="display: flex;" role="dialog" aria-modal="true" aria-labelledby="startMenuTitle">
+        <div class="modal-content">
+            <h2 id="startMenuTitle">SANDTRIS</h2>
+            <div id="difficulty-selector" style="margin-bottom: 20px;">
+                <button class="modal-button difficulty-button" data-difficulty="easy">Easy</button>
+                <button class="modal-button difficulty-button" data-difficulty="normal">Normal</button>
+                <button class="modal-button difficulty-button selected" data-difficulty="hard">Hard(er)</button>
+            </div>
+            <div class="start-screen-bottom">
+                <!-- Keyboard controls display -->
+                <div id="keyboard-controls" class="controls-display">
+                    <div class="control-key">Arrows</div> <div class="control-action">Move</div>
+                    <div class="control-key">Up/Down</div> <div class="control-action">Rotate</div>
+                    <div class="control-key">Space</div> <div class="control-action">Hard Drop</div>
+                    <div class="control-key">0</div> <div class="control-action">Hold Piece</div>
+                </div>
+                <!-- Touch controls display -->
+                <div id="touch-controls" class="controls-display" style="display: none;">
+                    <div class="control-key">Swipe Anywhere</div> <div class="control-action">Move/Rotate/Hard Drop</div>
+                    <div class="control-key">Double Tap</div> <div class="control-action">Hold Piece</div>
+                </div>
+                <button id="startGameButton" class="modal-button">Start Game</button>
+                <button id="showHighScoresButton" class="modal-button" style="margin-top: 15px;">View Top Scores</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New modal for high scores -->
+    <div id="highScoresModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="highScoresTitle">
+        <div class="modal-content">
+            <h2 id="highScoresTitle">TOP SCORES</h2>
+            <ol id="modal-high-scores-list" style="padding-left: 20px;"></ol>
+            <button id="closeHighScoresButton" class="modal-button" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <!-- Main game script (already at end of body for deferral, no changes made as per instructions) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Game Constants & Setup ---
+            const canvas = document.getElementById('game-canvas');
+            const ctx = canvas.getContext('2d');
+            const nextCanvas = document.getElementById('next-piece-canvas');
+            const nextCtx = nextCanvas.getContext('2d');
+            const holdCanvas = document.getElementById('hold-piece-canvas');
+            const holdCtx = holdCanvas.getContext('2d');
+
+            const staticCanvas = document.createElement('canvas');
+            const staticCtx = staticCanvas.getContext('2d');
+            const settlingCanvas = document.createElement('canvas');
+            const settlingCtx = settlingCanvas.getContext('2d');
+
+            const BLOCKS_WIDE = 10;
+            const BLOCKS_HIGH = 20;
+            // Increased PIXEL_PER_BLOCK for more granularity
+            const PIXEL_PER_BLOCK = 8; 
+            const PIXEL_GRID_WIDTH = BLOCKS_WIDE * PIXEL_PER_BLOCK;
+            const PIXEL_GRID_HEIGHT = BLOCKS_HIGH * PIXEL_PER_BLOCK;
+            let PIXEL_SIZE = 7;
+            let BLOCK_SIZE = PIXEL_PER_BLOCK * PIXEL_SIZE;
+
+            // UI Elements
+            const scoreEl = document.getElementById('score');
+            const linesEl = document.getElementById('lines');
+            const levelEl = document.getElementById('level');
+            const highScoresListEl = document.getElementById('high-scores-list');
+            const highScoresPanel = document.getElementById('high-scores-panel'); // New element reference
+
+            // Modal Elements
+            const gameOverModal = document.getElementById('gameOverModal');
+            const restartGameButton = document.getElementById('restartGameButton');
+            const startMenuModal = document.getElementById('startMenuModal');
+            const startGameButton = document.getElementById('startGameButton');
+            const difficultyButtons = document.querySelectorAll('.difficulty-button');
+            const showHighScoresButton = document.getElementById('showHighScoresButton'); // New button reference
+            const highScoresModal = document.getElementById('highScoresModal'); // New modal reference
+            const modalHighScoresList = document.getElementById('modal-high-scores-list'); // New list reference for modal
+            const closeHighScoresButton = document.getElementById('closeHighScoresButton'); // New button reference
+
+            // Control display elements
+            const keyboardControlsDiv = document.getElementById('keyboard-controls');
+            const touchControlsDiv = document.getElementById('touch-controls');
+            
+            // --- Game Piece Definitions ---
+            const SHAPES = [];
+            SHAPES[0] = [[[0, 0], [1, 0], [0, 1], [-1, 1]], [[0, 0], [0, 1], [-1, 0], [-1, -1]]]; // Z
+            SHAPES[1] = [[[0, 0], [-1, 0], [0, 1], [1, 1]], [[0, 0], [0, -1], [-1, 0], [-1, 1]]]; // S
+            SHAPES[2] = [[[0, 0], [-1, 0], [1, 0], [2, 0]], [[0, 0], [0, -1], [0, 1], [0, 2]]]; // I
+            SHAPES[3] = [[[0, 0], [1, 0], [0, 1], [1, 1]]]; // O
+            SHAPES[4] = [[[0, 0], [-1, 0], [1, 0], [1, 1]], [[0, 0], [0, -1], [0, 1], [-1, 1]], [[0, 0], [1, 0], [-1, 0], [-1, -1]], [[0, 0], [0, 1], [0, -1], [1, -1]]]; // L
+            SHAPES[5] = [[[0, 0], [1, 0], [-1, 0], [-1, 1]], [[0, 0], [0, 1], [0, -1], [-1, -1]], [[0, 0], [-1, 0], [1, 0], [1, -1]], [[0, 0], [0, -1], [0, 1], [1, 1]]]; // J
+            SHAPES[6] = [[[0,0], [-1,0], [1,0], [0,-1]], [[0,0], [0,-1], [0,1], [1,0]], [[0,0], [-1,0], [1,0], [0,1]], [[0,0], [0,-1], [0,1], [-1,0]]]; // T
+
+            const ALL_AVAILABLE_COLORS = ['#39ff14', '#fe019a', '#00fddc', '#fdf200', '#2f69fe', '#ff7f00', '#ff4040', '#bf00ff'];
+
+            // --- Particle System ---
+            let particles = [];
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x; this.y = y; this.color = color;
+                    this.size = Math.random() * PIXEL_SIZE * 1.5 + PIXEL_SIZE * 0.5;
+                    this.life = 1;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 1;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                }
+                update() { this.x += this.vx; this.y += this.vy; this.life -= 0.03; this.size *= 0.95; }
+                draw(targetCtx) {
+                    targetCtx.globalAlpha = this.life;
+                    targetCtx.fillStyle = this.color;
+                    targetCtx.beginPath();
+                    targetCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    targetCtx.fill();
+                    targetCtx.globalAlpha = 1;
+                }
+            }
+            function createExplosion(x, y, color) {
+                const count = 15;
+                for (let i = 0; i < count; i++) { particles.push(new Particle(x, y, color)); }
+            }
+            
+            // --- Piece Class ---
+            class Piece {
+                constructor(shapeIndex, x, y, activeColors) {
+                    this.shapeIndex = shapeIndex;
+                    this.shapeDefinition = SHAPES[shapeIndex];
+                    this.color = activeColors[shapeIndex % activeColors.length];
+                    this.rotation = 0;
+                    this.gridX = x; this.gridY = y;
+                }
+                getShapeCoords() {
+                    const currentRotationShape = this.shapeDefinition[this.rotation % this.shapeDefinition.length];
+                    return currentRotationShape.map(pos => ({ x: this.gridX + pos[0], y: this.gridY + pos[1] }));
+                }
+                rotate(clockwise = true) {
+                    const originalRotation = this.rotation;
+                    if (clockwise) {
+                        this.rotation = (this.rotation + 1) % this.shapeDefinition.length;
+                    } else {
+                        this.rotation = (this.rotation - 1 + this.shapeDefinition.length) % this.shapeDefinition.length;
+                    }
+                    return originalRotation !== this.rotation;
+                }
+            }
+
+            // --- Game Class ---
+            class Sandtris {
+                constructor() {
+                    this.BASE_FALL_SPEED = 1.0;
+                    this.activeColors = [];
+                    this.difficulty = 'normal';
+                    this.HIGH_SCORES_KEY = 'sandtrisHighScores';
+                    this.handleResize = this.handleResize.bind(this);
+                    
+                    // Initialize panel references here
+                    this.leftPanel = document.getElementById('left-panel');
+                    this.rightPanel = document.getElementById('right-panel');
+                    this.gameContainer = document.getElementById('game-container'); // Get game container reference
+
+                    this.reset();
+                }
+
+                reset() {
+                    this.pixelGrid = Array.from({ length: PIXEL_GRID_HEIGHT }, () => Array(PIXEL_GRID_WIDTH).fill(null));
+                    this.currentPiece = null; this.nextPiece = null; this.heldPiece = null; this.canSwap = true;
+                    this.score = 0; this.lines = 0; this.level = 1; this.gameOver = false;
+                    this.fallTimer = 0; this.fallSpeed = this.BASE_FALL_SPEED;
+                    this.settleTimer = 0; this.settleSpeed = 16;
+                    this.gameState = 'START_MENU';
+                    this.staticNeedsRedraw = true; particles = [];
+                    this.setDifficulty(this.difficulty);
+                    this.updateUI();
+                    this.updateHighScoresDisplay();
+                    if (this.gameState === 'START_MENU') this.showStartMenu();
+                    else this.hideStartMenu();
+                    this.hideGameOver();
+                    this.hideHighScoresModal(); // Ensure high scores modal is hidden on reset
+                    this.handleResize();
+                }
+
+                startGame() {
+                    if (this.gameState === 'START_MENU' || this.gameOver) {
+                        this.reset();
+                        this.currentPiece = this.getNewPiece();
+                        this.nextPiece = this.getNewPiece();
+                        this.gameState = 'PLAYING';
+                        this.fallSpeed = this.BASE_FALL_SPEED / this.level;
+                        this.hideStartMenu();
+                        this.hideGameOver();
+                        this.hideHighScoresModal(); // Ensure high scores modal is hidden when starting game
+                        
+                        // Hide the entire left panel during gameplay ONLY on mobile
+                        if (isTouchDevice()) {
+                            this.leftPanel.style.display = 'none'; // This hides the title and high scores panel
+                        } else {
+                            // On desktop, ensure high scores panel is visible during gameplay
+                            document.getElementById('high-scores-panel').style.display = 'block';
+                            this.leftPanel.style.display = 'flex'; // Ensure the left panel itself is visible
+                        }
+                        
+                        this.staticNeedsRedraw = true;
+                        this.handleResize();
+
+                        // NEW CHECK: If the initial piece cannot be placed, it's game over immediately
+                        if (!this.isValidSpace(this.currentPiece)) {
+                            this.gameOver = true;
+                            this.currentPiece = null;
+                            this.showGameOver();
+                        }
+                    }
+                }
+
+                setDifficulty(level) {
+                    this.difficulty = level;
+                    difficultyButtons.forEach(btn => btn.classList.toggle('selected', btn.dataset.difficulty === level));
+                    let numColors;
+                    switch (level) {
+                        case 'easy':   numColors = 4; break;
+                        case 'normal': numColors = 5; break;
+                        case 'hard':   numColors = 6; break;
+                        default:       numColors = 5;
+                    }
+                    const shuffledColors = [...ALL_AVAILABLE_COLORS].sort(() => 0.5 - Math.random());
+                    this.activeColors = shuffledColors.slice(0, Math.min(numColors, ALL_AVAILABLE_COLORS.length));
+                }
+
+                getNewPiece() {
+                    const shapeIdx = Math.floor(Math.random() * SHAPES.length);
+                    return new Piece(shapeIdx, Math.floor(BLOCKS_WIDE / 2), 0, this.activeColors);
+                }
+
+                update(deltaTime) {
+                    if (this.gameOver || this.gameState === 'START_MENU') return;
+                    
+                    particles.forEach((p, i) => { p.update(); if (p.life <= 0) particles.splice(i, 1); });
+                    if (this.gameState === 'PLAYING' && this.currentPiece) {
+                        this.handlePieceFalling(deltaTime);
+                    } else if (this.gameState === 'SETTLING') {
+                        this.settleTimer += deltaTime * 1000;
+                        if (this.settleTimer > this.settleSpeed) {
+                            this.settleTimer %= this.settleSpeed;
+                            if (!this.updateSandStep()) {
+                                this.gameState = 'CLEARING';
+                                this.staticNeedsRedraw = true;
+                            }
+                        }
+                    } else if (this.gameState === 'CLEARING') {
+                        const { pixelsToClear, colorsCleared } = this.findConnectedMasses();
+                        if (pixelsToClear.length > 0) {
+                            this.clearPixels(pixelsToClear);
+                            this.updateScoreAndLevel(colorsCleared.size);
+                            this.gameState = 'SETTLING';
+                            this.staticNeedsRedraw = true;
+                        } else {
+                            this.currentPiece = this.nextPiece;
+                            this.nextPiece = this.getNewPiece();
+                            this.canSwap = true;
+                            this.fallSpeed = (this.BASE_FALL_SPEED / this.level) * 0.9**(this.level - 1);
+                            this.fallTimer = 0;
+                            // NEW CHECK: If the newly generated piece cannot be placed, it's game over
+                            if (!this.isValidSpace(this.currentPiece)) {
+                                this.gameOver = true;
+                                this.currentPiece = null;
+                                this.showGameOver();
+                            } else {
+                                this.gameState = 'PLAYING';
+                            }
+                        }
+                    }
+                }
+
+                movePiece(dir) {
+                    if (!this.currentPiece) return;
+                    const oldX = this.currentPiece.gridX;
+                    this.currentPiece.gridX += dir;
+                    if (!this.isValidSpace(this.currentPiece)) { // Removed isNewPieceCheck
+                        this.currentPiece.gridX = oldX;
+                    }
+                }
+
+                handlePieceFalling(deltaTime) {
+                    if (!this.currentPiece) return;
+                    this.fallTimer += deltaTime;
+                    if (this.fallTimer >= this.fallSpeed) {
+                        this.fallTimer = 0; this.currentPiece.gridY++;
+                        if (!this.isValidSpace(this.currentPiece)) { // Removed isNewPieceCheck
+                            this.currentPiece.gridY--; this.lockAndCrumble();
+                        }
+                    }
+                }
+
+                lockAndCrumble() {
+                    if (!this.currentPiece) return;
+                    for (const { x: blockX, y: blockY } of this.currentPiece.getShapeCoords()) {
+                        for (let py = 0; py < PIXEL_PER_BLOCK; py++) {
+                            for (let px = 0; px < PIXEL_PER_BLOCK; px++) {
+                                const finalY = (blockY * PIXEL_PER_BLOCK) + py;
+                                const finalX = (blockX * PIXEL_PER_BLOCK) + px;
+                                if (finalY >= 0 && finalY < PIXEL_GRID_HEIGHT && finalX >= 0 && finalX < PIXEL_GRID_WIDTH) {
+                                    this.pixelGrid[finalY][finalX] = this.currentPiece.color;
+                                }
+                            }
+                        }
+                    }
+                    this.score += 10; this.currentPiece = null; this.gameState = 'SETTLING'; this.staticNeedsRedraw = true;
+                }
+
+                // FIX: Simplified isValidSpace - it only checks for validity, not game over
+                isValidSpace(piece, checkHorizontalOnly = false) { 
+                    if (!piece) return false;
+                    for (const { x, y } of piece.getShapeCoords()) {
+                        if (x < 0 || x >= BLOCKS_WIDE) return false; // Out of horizontal bounds
+                        if (!checkHorizontalOnly) {
+                            if (y >= BLOCKS_HIGH) return false; // Out of vertical bounds (below board)
+                            if (y < 0) continue; // Piece is above the visible board, which is fine for new pieces
+                            
+                            for (let py = 0; py < PIXEL_PER_BLOCK; py++) {
+                                for (let px = 0; px < PIXEL_PER_BLOCK; px++) {
+                                    const pY = Math.floor(y * PIXEL_PER_BLOCK + py);
+                                    // FIX: Corrected typo PIEL_PER_BLOCK to PIXEL_PER_BLOCK
+                                    const pX = Math.floor(x * PIXEL_PER_BLOCK + px);
+                                    if (pY >= 0 && pY < PIXEL_GRID_HEIGHT && pX >= 0 && pX < PIXEL_GRID_WIDTH) {
+                                        if (this.pixelGrid[pY] && this.pixelGrid[pY][pX]) {
+                                            return false; // Collision with existing pixel
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return true; // No collision, within bounds (or above)
+                }
+
+                updateSandStep() {
+                    let moved = false;
+                    for (let y = PIXEL_GRID_HEIGHT - 2; y >= 0; y--) {
+                        const xOrder = Array.from(Array(PIXEL_GRID_WIDTH).keys()).sort(() => Math.random() - 0.5);
+                        for (const x of xOrder) {
+                            if (!this.pixelGrid[y][x]) continue;
+                            if (y + 1 < PIXEL_GRID_HEIGHT && !this.pixelGrid[y + 1][x]) {
+                                this.pixelGrid[y + 1][x] = this.pixelGrid[y][x]; this.pixelGrid[y][x] = null; moved = true;
+                            } else {
+                                const canGoLeft = x > 0 && y + 1 < PIXEL_GRID_HEIGHT && !this.pixelGrid[y + 1][x - 1];
+                                const canGoRight = x < PIXEL_GRID_WIDTH - 1 && y + 1 < PIXEL_GRID_HEIGHT && !this.pixelGrid[y + 1][x + 1];
+                                let direction = 0;
+                                if (canGoLeft && canGoRight) direction = Math.random() > 0.5 ? 1 : -1;
+                                else if (canGoLeft) direction = -1;
+                                else if (canGoRight) direction = 1;
+                                if (direction !== 0) {
+                                    this.pixelGrid[y + 1][x + direction] = this.pixelGrid[y][x]; this.pixelGrid[y][x] = null; moved = true;
+                                }
+                            }
+                        }
+                    }
+                    if (moved) this.staticNeedsRedraw = true;
+                    return moved;
+                }
+
+                findConnectedMasses() {
+                    const pixelsToClear = [];
+                    const colorsCleared = new Set();
+                    const visited = Array.from({ length: PIXEL_GRID_HEIGHT }, () => Array(PIXEL_GRID_WIDTH).fill(false));
+
+                    for (let y = 0; y < PIXEL_GRID_HEIGHT; y++) {
+                        for (let x = 0; x < PIXEL_GRID_WIDTH; x++) {
+                            if (this.pixelGrid[y][x] && !visited[y][x]) {
+                                const color = this.pixelGrid[y][x];
+                                const component = [];
+                                const queue = [{ x, y }];
+                                visited[y][x] = true;
+                                let touchesLeft = false;
+                                let touchesRight = false;
+
+                                while (queue.length > 0) {
+                                    const current = queue.shift();
+                                    component.push(current);
+
+                                    if (current.x === 0) touchesLeft = true;
+                                    if (current.x === PIXEL_GRID_WIDTH - 1) touchesRight = true;
+
+                                    const neighbors = [{ x: current.x + 1, y: current.y }, { x: current.x - 1, y: current.y }, { x: current.x, y: current.y + 1 }, { x: current.x, y: current.y - 1 }];
+                                    for (const n of neighbors) {
+                                        if (n.x >= 0 && n.x < PIXEL_GRID_WIDTH && n.y >= 0 && n.y < PIXEL_GRID_HEIGHT && !visited[n.y][n.x] && this.pixelGrid[n.y][n.x] === color) {
+                                            visited[n.y][n.x] = true;
+                                            queue.push(n);
+                                        }
+                                    }
+                                }
+
+                                if (touchesLeft && touchesRight) {
+                                    pixelsToClear.push(...component);
+                                    colorsCleared.add(color);
+                                }
+                            }
+                        }
+                    }
+                    return { pixelsToClear, colorsCleared };
+                }
+
+                clearPixels(pixelsToClear) {
+                    if (pixelsToClear.length === 0) return;
+                    pixelsToClear.forEach(({x, y}) => {
+                        const color = this.pixelGrid[y][x];
+                        if (color && Math.random() < 0.2) { createExplosion(x * PIXEL_SIZE + PIXEL_SIZE / 2, y * PIXEL_SIZE + PIXEL_SIZE / 2, color); }
+                        this.pixelGrid[y][x] = null;
+                    });
+                    this.staticNeedsRedraw = true;
+                }
+
+                updateScoreAndLevel(massesClearedCount) {
+                    if (massesClearedCount === 0) return;
+                    this.lines += massesClearedCount;
+                    let bonus = 500 * massesClearedCount;
+                    if (massesClearedCount > 1) bonus *= (massesClearedCount * 1.5);
+                    this.score += Math.floor(bonus * this.level);
+                    const newLevel = Math.floor(this.lines / 5) + 1;
+                    if (newLevel > this.level) {
+                        this.level = newLevel;
+                        this.BASE_FALL_SPEED = Math.max(0.1, 1.0 - (this.level - 1) * 0.075);
+                    }
+                    this.updateUI();
+                }
+
+                holdPiece() {
+                    if (!this.canSwap) return;
+                    if (!this.heldPiece) {
+                        this.heldPiece = this.currentPiece;
+                        this.currentPiece = this.getNewPiece();
+                    } else {
+                        [this.currentPiece, this.heldPiece] = [this.heldPiece, this.currentPiece];
+                        this.currentPiece.gridX = Math.floor(BLOCKS_WIDE / 2);
+                        this.currentPiece.gridY = 0;
+                    }
+                    this.canSwap = false; this.staticNeedsRedraw = true;
+                }
+
+                draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    if (this.gameState === 'START_MENU') return;
+                    const useGooEffect = this.gameState === 'SETTLING' || this.gameState === 'CLEARING';
+                    const targetCtx = useGooEffect ? settlingCtx : staticCtx;
+                    const targetCanvas = useGooEffect ? settlingCanvas : staticCanvas;
+                    if (useGooEffect || this.staticNeedsRedraw) {
+                        targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+                        this._drawUnfilteredPixelsToContext(targetCtx, this.pixelGrid);
+                        if (!useGooEffect) this.staticNeedsRedraw = false;
+                    }
+                    // CRITICAL: Ensure no filters are applied to the main context
+                    ctx.filter = 'none'; 
+                    ctx.drawImage(targetCanvas, 0, 0);
+                    
+                    if (this.currentPiece && this.gameState === 'PLAYING') {
+                        this.drawGhostPiece();
+                        this.drawCurrentPiece();
+                    }
+                    particles.forEach(p => p.draw(ctx));
+                    this.drawNextPiece();
+                    this.drawHeldPiece();
+                    this.updateUI();
+                }
+
+                _drawUnfilteredPixelsToContext(targetCtx, grid) {
+                    for (let y = 0; y < PIXEL_GRID_HEIGHT; y++) {
+                        for (let x = 0; x < PIXEL_GRID_WIDTH; x++) {
+                            if (grid[y][x]) {
+                                targetCtx.fillStyle = grid[y][x];
+                                // Draw as a small rectangle for granularity and hard edges
+                                targetCtx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+                            }
+                        }
+                    }
+                }
+
+                drawCurrentPiece() {
+                    if (!this.currentPiece) return;
+                    for (const { x: blockX, y: blockY } of this.currentPiece.getShapeCoords()) {
+                        for (let py = 0; py < PIXEL_PER_BLOCK; py++) {
+                            for (let px = 0; px < PIXEL_PER_BLOCK; px++) {
+                                const finalY = (blockY * PIXEL_PER_BLOCK) + py;
+                                const finalX = (blockX * PIXEL_PER_BLOCK) + px;
+                                // Draw each individual pixel of the current piece as a small rectangle
+                                ctx.fillStyle = this.currentPiece.color;
+                                ctx.fillRect(finalX * PIXEL_SIZE, finalY * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+                            }
+                        }
+                    }
+                }
+
+                drawGhostPiece() {
+                    if (!this.currentPiece) return;
+                    let tempPiece = new Piece(game.currentPiece.shapeIndex, game.currentPiece.gridX, game.currentPiece.gridY, game.activeColors);
+                    tempPiece.rotation = game.currentPiece.rotation;
+                    while (game.isValidSpace(tempPiece)) tempPiece.gridY++;
+                    tempPiece.gridY--;
+                    ctx.globalAlpha = 0.25; // Apply transparency to the ghost piece
+                    for (const { x: blockX, y: blockY } of tempPiece.getShapeCoords()) { 
+                        for (let py = 0; py < PIXEL_PER_BLOCK; py++) {
+                            for (let px = 0; px < PIXEL_PER_BLOCK; px++) {
+                                const finalY = (blockY * PIXEL_PER_BLOCK) + py;
+                                const finalX = (blockX * PIXEL_PER_BLOCK) + px;
+                                // Draw each individual pixel of the ghost piece as a small rectangle
+                                ctx.fillStyle = this.currentPiece.color;
+                                ctx.fillRect(finalX * PIXEL_SIZE, finalY * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+                            }
+                        }
+                    }
+                    ctx.globalAlpha = 1.0; // Reset global alpha
+                }
+
+                drawSolidBlock(blockGridX, blockGridY, color, targetCtx) {
+                    // This function is used for side pieces (next/hold) and should draw solid blocks
+                    const xPos = blockGridX * BLOCK_SIZE; const yPos = blockGridY * BLOCK_SIZE;
+                    targetCtx.fillStyle = color;
+                    targetCtx.shadowColor = color; // Keep shadow for side pieces for visual pop
+                    targetCtx.shadowBlur = PIXEL_SIZE * 2; // Keep shadow for side pieces for visual pop
+                    targetCtx.fillRect(xPos, yPos, BLOCK_SIZE, BLOCK_SIZE);
+                    targetCtx.shadowBlur = 0;
+                }
+                
+                _drawSidePiece(piece, targetCtx, targetCanvas) {
+                    targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+                    if (piece && this.gameState !== 'START_MENU') {
+                        const sideBlockSize = targetCanvas.width / 4.5;
+                        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                        const coords = SHAPES[piece.shapeIndex][0].map(p => ({x: p[0], y: p[1]}));
+                        coords.forEach(p => { minX = Math.min(minX, p.x); minY = Math.min(minY, p.y); maxX = Math.max(maxX, p.x); maxY = Math.max(maxY, p.y); });
+                        const pieceWidthBlocks = maxX - minX + 1; const pieceHeightBlocks = maxY - minY + 1;
+                        const offsetX = (targetCanvas.width - pieceWidthBlocks * sideBlockSize) / 2;
+                        const offsetY = (targetCanvas.height - pieceHeightBlocks * sideBlockSize) / 2;
+                        for (const { x, y } of coords) {
+                            targetCtx.fillStyle = piece.color;
+                            targetCtx.shadowColor = piece.color; // Keep shadow for side pieces for visual pop
+                            targetCtx.shadowBlur = 10;
+                            targetCtx.fillRect(offsetX + (x - minX) * sideBlockSize, offsetY + (y - minY) * sideBlockSize, sideBlockSize, sideBlockSize);
+                        }
+                        targetCtx.shadowBlur = 0;
+                    }
+                }
+
+                drawNextPiece() { this._drawSidePiece(this.nextPiece, nextCtx, nextCanvas); }
+                drawHeldPiece() { this._drawSidePiece(this.heldPiece, holdCtx, holdCanvas); }
+
+                updateUI() { scoreEl.textContent = this.score; linesEl.textContent = this.lines; levelEl.textContent = this.level; }
+                
+                showGameOver() {
+                    this.addHighScore(this.score);
+                    this.updateHighScoresDisplay();
+                    gameOverModal.style.display = 'flex';
+                }
+                hideGameOver() { gameOverModal.style.display = 'none'; }
+                showStartMenu() { 
+                    startMenuModal.style.display = 'flex'; 
+                    document.getElementById('high-scores-panel').style.display = 'block';
+                    this.leftPanel.style.display = 'flex'; // Ensure left panel is visible on start menu
+
+                    // Show/hide controls based on device type
+                    if (isTouchDevice()) {
+                        keyboardControlsDiv.style.display = 'none';
+                        touchControlsDiv.style.display = 'grid'; // Use grid for touch controls
+                    } else {
+                        keyboardControlsDiv.style.display = 'grid'; // Use grid for keyboard controls
+                        touchControlsDiv.style.display = 'none';
+                    }
+                }
+                hideStartMenu() { startMenuModal.style.display = 'none'; }
+
+                showHighScoresModal() { highScoresModal.style.display = 'flex'; }
+                hideHighScoresModal() { highScoresModal.style.display = 'none'; }
+
+
+                getHighScores() {
+                    const scoresJSON = localStorage.getItem(this.HIGH_SCORES_KEY);
+                    return scoresJSON ? JSON.parse(scoresJSON) : [];
+                }
+                saveHighScores(scores) {
+                    scores.sort((a, b) => b.score - a.score);
+                    const topScores = scores.slice(0, 5);
+                    localStorage.setItem(this.HIGH_SCORES_KEY, JSON.stringify(topScores));
+                }
+                addHighScore(score) {
+                    if (score === 0) return;
+                    const scores = this.getHighScores();
+                    const date = new Date().toLocaleDateString('en-US');
+                    scores.push({ score, date });
+                    this.saveHighScores(scores);
+                }
+                updateHighScoresDisplay() {
+                    const scores = this.getHighScores();
+                    highScoresListEl.innerHTML = '';
+                    modalHighScoresList.innerHTML = ''; // Clear modal list as well
+                    if (scores.length > 0) {
+                        scores.forEach((scoreEntry) => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<div class="score-entry"><span>${scoreEntry.score}</span></div><div class="score-date">${scoreEntry.date}</div>`;
+                            highScoresListEl.appendChild(li.cloneNode(true)); // Append to main high scores list
+                            modalHighScoresList.appendChild(li); // Append to modal high scores list
+                        });
+                    } else {
+                        highScoresListEl.innerHTML = '<li>-</li>'; // Display a dash if no scores
+                        modalHighScoresList.innerHTML = '<li>-</li>';
+                    }
+                }
+
+                handleResize() {
+                    const bodyPadding = 20; // From body padding
+                    const mainGap = 50; // Fixed gap from main CSS
+
+                    const availableViewportWidth = window.innerWidth - (2 * bodyPadding);
+                    const availableViewportHeight = window.innerHeight - (2 * bodyPadding);
+
+                    const boardAspectRatio = BLOCKS_WIDE / BLOCKS_HIGH;
+
+                    // Declare these variables at the top of the function to ensure they are always in scope
+                    let calculatedCanvasWidth;
+                    let calculatedCanvasHeight;
+                    let rightPanelCalculatedWidth;
+                    let clampedPanelWidth; 
+
+                    // Helper function to clamp values
+                    function clamp(min, value, max) {
+                        return Math.max(min, Math.min(value, max));
+                    }
+                    
+                    if (window.innerWidth <= 768) { // Mobile layout - try to keep side-by-side
+                        // Determine the maximum possible width for the right panel.
+                        rightPanelCalculatedWidth = clamp(80, 0.25 * availableViewportWidth, 120);
+
+                        // The remaining horizontal space is for the game canvas.
+                        // Subtract the right panel width and the gap between them.
+                        const horizontalSpaceForCanvas = availableViewportWidth - rightPanelCalculatedWidth - mainGap;
+
+                        // Calculate canvas dimensions based on available horizontal space and aspect ratio.
+                        calculatedCanvasWidth = horizontalSpaceForCanvas;
+                        calculatedCanvasHeight = calculatedCanvasWidth / boardAspectRatio;
+
+                        // If the calculated height exceeds the available viewport height,
+                        // then height becomes the limiting factor.
+                        if (calculatedCanvasHeight > availableViewportHeight) {
+                            calculatedCanvasHeight = availableViewportHeight;
+                            calculatedCanvasWidth = calculatedCanvasHeight * boardAspectRatio;
+                        }
+
+                        // Ensure minimum canvas size
+                        calculatedCanvasWidth = Math.max(150, calculatedCanvasWidth); // Smaller min width
+                        calculatedCanvasHeight = Math.max(300, calculatedCanvasHeight); // Smaller min height
+
+                        // Recalculate PIXEL_SIZE based on the final calculated canvas dimensions
+                        PIXEL_SIZE = Math.max(1, Math.floor(calculatedCanvasWidth / PIXEL_GRID_WIDTH));
+                        if (PIXEL_SIZE === 0) PIXEL_SIZE = 1;
+
+                        BLOCK_SIZE = PIXEL_PER_BLOCK * PIXEL_SIZE;
+
+                        // Re-adjust final canvas dimensions to be exact multiples of PIXEL_SIZE
+                        const finalCanvasWidth = PIXEL_GRID_WIDTH * PIXEL_SIZE;
+                        const finalCanvasHeight = PIXEL_GRID_HEIGHT * PIXEL_SIZE;
+
+                        canvas.width = staticCanvas.width = settlingCanvas.width = finalCanvasWidth;
+                        canvas.height = staticCanvas.height = settlingCanvas.height = finalCanvasHeight;
+
+                        // Set right panel width
+                        this.rightPanel.style.width = `${rightPanelCalculatedWidth}px`;
+
+                        // Adjust side canvas sizes within the right panel
+                        const sideCanvasContainer = document.querySelector('#right-panel .stat-box:last-child');
+                        if (sideCanvasContainer) {
+                            // Max width for side canvases should be based on the calculated rightPanelWidth
+                            let sideCanvasSize = Math.min(100, (rightPanelCalculatedWidth - (2 * 12)) * 0.9); // 12px is stat-box padding
+                            nextCanvas.width = holdCanvas.width = sideCanvasSize;
+                            nextCanvas.height = holdCanvas.height = sideCanvasSize;
+                        }
+
+                        // On mobile, ensure left panel is hidden during gameplay
+                        if (this.gameState === 'PLAYING') {
+                            this.leftPanel.style.display = 'none';
+                        } else {
+                            this.leftPanel.style.display = 'flex'; // Show on start menu
+                            // On mobile start menu, the left panel can take more width if it's the only one
+                            this.leftPanel.style.width = `${clamp(150, 0.9 * availableViewportWidth, 400)}px`;
+                        }
+
+                        // Mobile: Vertically center the combined game area (canvas + right panel)
+                        const totalGameAreaHeight = finalCanvasHeight; // This assumes right panel stretches to canvas height
+                        const mobileTopMargin = Math.max(0, (availableViewportHeight - totalGameAreaHeight) / 2);
+                        this.gameContainer.style.marginTop = `${mobileTopMargin}px`;
+                        this.gameContainer.style.marginBottom = `${mobileTopMargin}px`;
+                        this.rightPanel.style.marginTop = `${mobileTopMargin}px`;
+                        this.rightPanel.style.marginBottom = `${mobileTopMargin}px`;
+
+
+                    } else { // Desktop layout
+                        clampedPanelWidth = clamp(120, 0.15 * window.innerWidth, 180); // Made sidebars thinner
+
+                        const desktopAvailableCanvasWidth = availableViewportWidth - (2 * clampedPanelWidth) - (2 * mainGap);
+                        const desktopAvailableCanvasHeight = availableViewportHeight;
+
+                        if ((desktopAvailableCanvasWidth / boardAspectRatio) <= desktopAvailableCanvasHeight) {
+                            calculatedCanvasWidth = desktopAvailableCanvasWidth;
+                            calculatedCanvasHeight = calculatedCanvasWidth / boardAspectRatio;
+                        } else {
+                            calculatedCanvasHeight = desktopAvailableCanvasHeight;
+                            calculatedCanvasWidth = calculatedCanvasHeight * boardAspectRatio;
+                        }
+
+                        calculatedCanvasWidth = Math.max(200, calculatedCanvasWidth);
+                        calculatedCanvasHeight = Math.max(400, calculatedCanvasHeight);
+
+                        PIXEL_SIZE = Math.max(1, Math.floor(calculatedCanvasWidth / PIXEL_GRID_WIDTH));
+                        if (PIXEL_SIZE === 0) PIXEL_SIZE = 1; 
+
+                        BLOCK_SIZE = PIXEL_PER_BLOCK * PIXEL_SIZE;
+
+                        const finalCanvasWidth = PIXEL_GRID_WIDTH * PIXEL_SIZE;
+                        const finalCanvasHeight = PIXEL_GRID_HEIGHT * PIXEL_SIZE;
+
+                        canvas.width = staticCanvas.width = settlingCanvas.width = finalCanvasWidth;
+                        canvas.height = staticCanvas.height = settlingCanvas.height = finalCanvasHeight;
+
+                        this.leftPanel.style.width = `${clampedPanelWidth}px`;
+                        this.rightPanel.style.width = `${clampedPanelWidth}px`;
+
+                        const sideCanvasContainer = document.querySelector('#right-panel .stat-box:last-child');
+                        if (sideCanvasContainer) {
+                            const containerWidth = sideCanvasContainer.clientWidth - (2 * 12);
+                            nextCanvas.width = holdCanvas.width = containerWidth;
+                            nextCanvas.height = holdCanvas.height = containerWidth / 1.5; // Original desktop ratio
+                        }
+
+                        this.leftPanel.style.display = 'flex'; // Always visible on desktop
+                    }
+                    this.draw(); // Redraw after resize
+                }
+            }
+
+            let game = new Sandtris();
+            let lastTime = 0;
+            function gameLoop(timestamp) {
+                const deltaTime = (timestamp - lastTime) / 1000;
+                lastTime = timestamp;
+                game.update(deltaTime || 0);
+                game.draw();
+                requestAnimationFrame(gameLoop);
+            }
+
+            // Helper function to detect if the device is a touchscreen
+            function isTouchDevice() {
+                // Check for maxTouchPoints for more reliable detection
+                return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+            }
+
+            // --- Input Handling ---
+            // Keyboard controls
+            const handleKeyPress = (e) => {
+                if (game.gameOver || game.gameState !== 'PLAYING' || !game.currentPiece) return;
+                
+                // Only process keyboard input if it's not a touch device
+                if (isTouchDevice()) return;
+
+                const key = e.key;
+                if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", "0"].includes(key)) e.preventDefault();
+
+                if (key === 'ArrowLeft') game.movePiece(-1);
+                if (key === 'ArrowRight') game.movePiece(1);
+                if (key === 'ArrowUp') game.currentPiece.rotate(true);
+                if (key === 'ArrowDown') game.currentPiece.gridY++; // Soft Drop
+                if (key === ' ') { // Hard Drop
+                    const originalY = game.currentPiece.gridY;
+                    let tempPiece = new Piece(game.currentPiece.shapeIndex, game.currentPiece.gridX, game.currentPiece.gridY, game.activeColors);
+                    tempPiece.rotation = game.currentPiece.rotation;
+                    while (game.isValidSpace(tempPiece)) tempPiece.gridY++;
+                    game.currentPiece.gridY = tempPiece.gridY - 1;
+                    game.score += Math.max(0, (game.currentPiece.gridY - originalY)) * 2;
+                    game.lockAndCrumble();
+                    game.fallTimer = game.fallSpeed;
+                }
+                if (key === '0') game.holdPiece();
+            };
+            
+            document.addEventListener('keydown', handleKeyPress);
+
+            // Touch controls
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchMoveX = 0;
+            let touchMoveY = 0;
+            let touchStartTime = 0;
+            let lastTapTime = 0; // For double tap detection
+
+            const swipeThreshold = 30; // Minimum pixel distance for a swipe to register
+            const tapThreshold = 10; // Maximum pixel distance for a tap to register (to differentiate from swipe)
+            const doubleTapDelay = 300; // Max time between taps for a double-tap
+
+            canvas.addEventListener('touchstart', (e) => {
+                if (game.gameOver || game.gameState !== 'PLAYING' || !game.currentPiece) return;
+                // Only process touch input if it's a touch device
+                if (!isTouchDevice()) return;
+
+                e.preventDefault(); // Prevent scrolling
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                touchMoveX = touch.clientX;
+                touchMoveY = touch.clientY;
+                touchStartTime = Date.now(); // Record time for tap/double tap
+            }, { passive: false });
+
+            canvas.addEventListener('touchmove', (e) => {
+                if (game.gameOver || game.gameState !== 'PLAYING' || !game.currentPiece) return;
+                // Only process touch input if it's a touch device
+                if (!isTouchDevice()) return;
+
+                e.preventDefault(); // Prevent scrolling
+                const touch = e.touches[0];
+                touchMoveX = touch.clientX;
+                touchMoveY = touch.clientY;
+            }, { passive: false });
+
+            canvas.addEventListener('touchend', (e) => {
+                if (game.gameOver || game.gameState !== 'PLAYING' || !game.currentPiece) return;
+                // Only process touch input if it's a touch device
+                if (!isTouchDevice()) return;
+
+                const deltaX = touchMoveX - touchStartX;
+                const deltaY = touchMoveY - touchStartY;
+                const touchDuration = Date.now() - touchStartTime;
+
+                // Determine if it was a swipe or a tap
+                if (Math.abs(deltaX) > swipeThreshold || Math.abs(deltaY) > swipeThreshold) {
+                    // It's a swipe
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                        // Horizontal swipe
+                        if (deltaX > 0) {
+                            game.movePiece(1); // Swipe right
+                        } else {
+                            game.movePiece(-1); // Swipe left
+                        }
+                    } else {
+                        // Vertical swipe
+                        if (deltaY > 0) {
+                            // Swipe down for hard drop
+                            const originalY = game.currentPiece.gridY;
+                            let tempPiece = new Piece(game.currentPiece.shapeIndex, game.currentPiece.gridX, game.currentPiece.gridY, game.activeColors);
+                            tempPiece.rotation = game.currentPiece.rotation;
+                            while (game.isValidSpace(tempPiece)) tempPiece.gridY++;
+                            game.currentPiece.gridY = tempPiece.gridY - 1;
+                            game.score += Math.max(0, (game.currentPiece.gridY - originalY)) * 2;
+                            game.lockAndCrumble();
+                            game.fallTimer = game.fallSpeed;
+                        } else {
+                            game.currentPiece.rotate(true); // Swipe up (rotate)
+                        }
+                    }
+                } else if (Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold) {
+                    // It's a tap
+                    if (lastTapTime && (Date.now() - lastTapTime) < doubleTapDelay) {
+                        // Double tap detected
+                        game.holdPiece();
+                        lastTapTime = 0; // Reset for next double tap
+                    } else {
+                        // Single tap detected, perform rotation
+                        game.currentPiece.rotate(true);
+                        lastTapTime = Date.now(); // Store time for potential double tap
+                    }
+                }
+            });
+
+            // --- Button and Window Event Listeners ---
+            restartGameButton.addEventListener('click', () => { game.hideGameOver(); game.reset(); game.showStartMenu(); });
+            startGameButton.addEventListener('click', () => game.startGame());
+            difficultyButtons.forEach(button => button.addEventListener('click', () => game.setDifficulty(button.dataset.difficulty)));
+            window.addEventListener('resize', () => game.handleResize());
+            
+            // New event listeners for the high scores modal
+            showHighScoresButton.addEventListener('click', () => game.showHighScoresModal());
+            closeHighScoresButton.addEventListener('click', () => game.hideHighScoresModal());
+
+            game.handleResize();
+            requestAnimationFrame(gameLoop);
+        });
+    </script>
+</body>
+</html>
